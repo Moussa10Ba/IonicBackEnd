@@ -1,0 +1,54 @@
+<?php //App_Entity_Transaction
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Serializer\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\ClassMetadata')),
+        clone ($p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata')),
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Entity\\Transaction',
+                'id',
+                'code',
+                'montant',
+                'date',
+                'type',
+                'partEtat',
+                'partEnt',
+                'partAgenceRetrait',
+                'parAgenceRetrait',
+                'partAgenceDepot',
+                'user',
+            ],
+            'attributesMetadata' => [
+                [
+                    'id' => $o[1],
+                    'code' => $o[2],
+                    'montant' => $o[3],
+                    'date' => $o[4],
+                    'type' => $o[5],
+                    'partEtat' => $o[6],
+                    'partEnt' => $o[7],
+                    'partAgenceRetrait' => $o[8],
+                    'parAgenceRetrait' => $o[9],
+                    'partAgenceDepot' => $o[10],
+                    'user' => $o[11],
+                ],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];
