@@ -141,18 +141,18 @@ return [[
 '%5B%5BC%5DApp%5CEntity%5CUser%23getAgence%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CUser%23setAgence%5D%5B1%5D' => 1,
 '%5B%5BC%5DApp%5CEntity%5CUser%23setAgence%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CUser%23getComptes%5D%5B1%5D' => 1,
-'%5B%5BC%5DApp%5CEntity%5CUser%23getComptes%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CUser%23addCompte%5D%5B1%5D' => 1,
-'%5B%5BC%5DApp%5CEntity%5CUser%23addCompte%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CUser%23removeCompte%5D%5B1%5D' => 1,
-'%5B%5BC%5DApp%5CEntity%5CUser%23removeCompte%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CUser%23getTransactions%5D%5B1%5D' => 1,
 '%5B%5BC%5DApp%5CEntity%5CUser%23getTransactions%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CUser%23addTransaction%5D%5B1%5D' => 1,
 '%5B%5BC%5DApp%5CEntity%5CUser%23addTransaction%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CUser%23removeTransaction%5D%5B1%5D' => 1,
 '%5B%5BC%5DApp%5CEntity%5CUser%23removeTransaction%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CUser%23getDepots%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CUser%23getDepots%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CUser%23addDepot%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CUser%23addDepot%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CUser%23removeDepot%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CUser%23removeDepot%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CUser%24id%5D%5B1%5D' => 9,
 '%5B%5BC%5DApp%5CEntity%5CUser%24id%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CUser%24email%5D%5B1%5D' => 10,
@@ -175,10 +175,10 @@ return [[
 '%5B%5BC%5DApp%5CEntity%5CUser%24archiver%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CUser%24agence%5D%5B1%5D' => 16,
 '%5B%5BC%5DApp%5CEntity%5CUser%24agence%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CUser%24comptes%5D%5B1%5D' => 17,
-'%5B%5BC%5DApp%5CEntity%5CUser%24comptes%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CUser%24transactions%5D%5B1%5D' => 18,
+'%5BApp%5CEntity%5CUser%24transactions%5D%5B1%5D' => 17,
 '%5B%5BC%5DApp%5CEntity%5CUser%24transactions%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CUser%24depots%5D%5B1%5D' => 18,
+'%5B%5BC%5DApp%5CEntity%5CUser%24depots%5D%5B1%5D' => 2,
 '%5BDoctrine%5CBundle%5CDoctrineBundle%5CController%5CProfilerController%5D%5B1%5D' => 1,
 '%5B%5BC%5DDoctrine%5CBundle%5CDoctrineBundle%5CController%5CProfilerController%5D%5B1%5D' => 2,
 '%5BDoctrine%5CBundle%5CDoctrineBundle%5CController%5CProfilerController%23setContainer%5D%5B1%5D' => 1,
@@ -650,7 +650,7 @@ return [[
 
 0 => 'N;',
 1 => [],
-2 => 1614212611,
+2 => 1614310000,
 3 => static function () {
     return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
         $o = [
@@ -867,6 +867,7 @@ return [[
             clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
             clone ($p['Symfony\\Component\\Serializer\\Annotation\\Groups'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Annotation\\Groups')),
             clone $p['Symfony\\Component\\Serializer\\Annotation\\Groups'],
+            clone $p['Symfony\\Component\\Serializer\\Annotation\\Groups'],
         ],
         null,
         [
@@ -886,6 +887,9 @@ return [[
                     [
                         'userWrite',
                     ],
+                    [
+                        'transactionRead',
+                    ],
                 ],
             ],
         ],
@@ -893,6 +897,7 @@ return [[
             $o[0],
             $o[1],
             $o[2],
+            $o[3],
         ],
         []
     );
@@ -916,6 +921,7 @@ return [[
             clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
             clone ($p['Symfony\\Component\\Serializer\\Annotation\\Groups'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Annotation\\Groups')),
             clone $p['Symfony\\Component\\Serializer\\Annotation\\Groups'],
+            clone $p['Symfony\\Component\\Serializer\\Annotation\\Groups'],
         ],
         null,
         [
@@ -932,6 +938,9 @@ return [[
                     [
                         'userWrite',
                     ],
+                    [
+                        'transactionRead',
+                    ],
                 ],
             ],
         ],
@@ -939,6 +948,7 @@ return [[
             $o[0],
             $o[1],
             $o[2],
+            $o[3],
         ],
         []
     );
@@ -1082,7 +1092,7 @@ return [[
                     'user',
                 ],
                 'targetEntity' => [
-                    'App\\Entity\\Compte',
+                    'App\\Entity\\Transaction',
                 ],
             ],
         ],
@@ -1101,10 +1111,10 @@ return [[
         [
             'stdClass' => [
                 'mappedBy' => [
-                    'user',
+                    'caissier',
                 ],
                 'targetEntity' => [
-                    'App\\Entity\\Transaction',
+                    'App\\Entity\\Depot',
                 ],
             ],
         ],

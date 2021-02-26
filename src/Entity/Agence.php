@@ -33,18 +33,21 @@ class Agence
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("compteRead")
+     * @Groups("compteWrite")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("compteRead")
+     * @Groups("compteWrite")
      */
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("compteRead")
+     * @Groups("compteWrite")
      */
     private $telephone;
 

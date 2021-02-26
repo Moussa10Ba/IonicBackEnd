@@ -38,12 +38,15 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                 ],
                 [
                     'compteRead',
+                    'compteWrite',
                 ],
                 [
                     'compteRead',
+                    'compteWrite',
                 ],
                 [
                     'compteRead',
+                    'compteWrite',
                 ],
             ],
         ],

@@ -41,6 +41,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups("userRead")
      * @Groups("userWrite")
+     * @Groups("transactionRead")
      */
     private $email;
 
@@ -57,6 +58,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups("userRead")
      * @Groups("userWrite")
+     * @Groups("transactionRead")
      */
     private $prenom;
 
@@ -64,6 +66,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups("userRead")
      * @Groups("userWrite")
+     * @Groups("transactionRead")
      */
     private $nom;
 
@@ -71,6 +74,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups("userRead")
      * @Groups("userWrite")
+     * @Groups("transactionRead")
      */
     private $telephone;
 
@@ -100,20 +104,23 @@ class User implements UserInterface
      */
     private $agence;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Compte::class, mappedBy="user")
-     */
-    private $comptes;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="user")
      */
     private $transactions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Depot::class, mappedBy="caissier")
+     */
+    private $depots;
+
     public function __construct()
     {
         $this->comptes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->depots = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -286,36 +293,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Compte[]
-     */
-    public function getComptes(): Collection
-    {
-        return $this->comptes;
-    }
-
-    public function addCompte(Compte $compte): self
-    {
-        if (!$this->comptes->contains($compte)) {
-            $this->comptes[] = $compte;
-            $compte->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCompte(Compte $compte): self
-    {
-        if ($this->comptes->removeElement($compte)) {
-            // set the owning side to null (unless already changed)
-            if ($compte->getUser() === $this) {
-                $compte->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Transaction[]
      */
     public function getTransactions(): Collection
@@ -339,6 +316,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($transaction->getUser() === $this) {
                 $transaction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Depot[]
+     */
+    public function getDepots(): Collection
+    {
+        return $this->depots;
+    }
+
+    public function addDepot(Depot $depot): self
+    {
+        if (!$this->depots->contains($depot)) {
+            $this->depots[] = $depot;
+            $depot->setCaissier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepot(Depot $depot): self
+    {
+        if ($this->depots->removeElement($depot)) {
+            // set the owning side to null (unless already changed)
+            if ($depot->getCaissier() === $this) {
+                $depot->setCaissier(null);
             }
         }
 

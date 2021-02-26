@@ -5,9 +5,33 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"transactionRead"}},
+ *     denormalizationContext={"groups"={"transactionWrite"}},
+ *  attributes={
+ *     "security"="(is_granted('ROLE_UtilisateurAgence') or is_granted('ROLE_AdminAgence'))",
+ *      "security_message"="Acces Denied",
+ *     "paginationItemsPerPage"=100,
+ *     },
+ *     routePrefix="/user",
+ *     collectionOperations={
+ *     "post"={
+ *        "method"="POST",
+ *        "path"="/transactions",
+ *     },
+ *     "get",
+ *     },
+ *     itemOperations={
+ *     "put"={
+ *     "method"="PUT",
+ *     "path"="/transactions/retrait",
+ *     },
+ *     "get"
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=TransactionRepository::class)
  */
 class Transaction
@@ -21,58 +45,89 @@ class Transaction
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("transactionRead")
      */
     private $code;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
      */
     private $montant;
 
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $date;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
      */
     private $type;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("transactionRead")
      */
     private $partEtat;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("transactionRead")
      */
     private $partEnt;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("transactionRead")
      */
     private $partAgenceRetrait;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $parAgenceRetrait;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("transactionRead")
      */
     private $partAgenceDepot;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transactions")
+     * @Groups("transactionRead")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Compte::class, inversedBy="transactions")
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
      */
     private $compte;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="transactions",cascade = {"persist"})
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     */
+    private $client;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     */
+    private $dateDepot;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     */
+    private $dateRetrait;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Groups("transactionRead")
+     */
+    private $isRetired;
 
     public function getId(): ?int
     {
@@ -103,17 +158,7 @@ class Transaction
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
 
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
 
     public function getType(): ?string
     {
@@ -163,17 +208,6 @@ class Transaction
         return $this;
     }
 
-    public function getParAgenceRetrait(): ?int
-    {
-        return $this->parAgenceRetrait;
-    }
-
-    public function setParAgenceRetrait(int $parAgenceRetrait): self
-    {
-        $this->parAgenceRetrait = $parAgenceRetrait;
-
-        return $this;
-    }
 
     public function getPartAgenceDepot(): ?int
     {
@@ -207,6 +241,54 @@ class Transaction
     public function setCompte(?Compte $compte): self
     {
         $this->compte = $compte;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getDateDepot(): ?\DateTimeInterface
+    {
+        return $this->dateDepot;
+    }
+
+    public function setDateDepot(?\DateTimeInterface $dateDepot): self
+    {
+        $this->dateDepot = $dateDepot;
+
+        return $this;
+    }
+
+    public function getDateRetrait(): ?\DateTimeInterface
+    {
+        return $this->dateRetrait;
+    }
+
+    public function setDateRetrait(?\DateTimeInterface $dateRetrait): self
+    {
+        $this->dateRetrait = $dateRetrait;
+
+        return $this;
+    }
+
+    public function getIsRetired(): ?bool
+    {
+        return $this->isRetired;
+    }
+
+    public function setIsRetired(bool $isRetired): self
+    {
+        $this->isRetired = $isRetired;
 
         return $this;
     }

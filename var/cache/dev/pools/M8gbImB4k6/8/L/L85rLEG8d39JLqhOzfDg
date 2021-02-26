@@ -10,6 +10,7 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
         clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
         clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
         clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
     ],
     null,
     [
@@ -21,8 +22,9 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                 'montant',
                 'creatAt',
                 'agence',
-                'user',
                 'archiver',
+                'transactions',
+                'depots',
             ],
             'attributesMetadata' => [
                 [
@@ -31,13 +33,21 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                     'montant' => $o[3],
                     'creatAt' => $o[4],
                     'agence' => $o[5],
-                    'user' => $o[6],
-                    'archiver' => $o[7],
+                    'archiver' => $o[6],
+                    'transactions' => $o[7],
+                    'depots' => $o[8],
                 ],
             ],
             'groups' => [
                 1 => [
                     'compteRead',
+                    'transactionRead',
+                ],
+                [
+                    'compteRead',
+                    'compteWrite',
+                    'transactionRead',
+                    'transactionWrite',
                 ],
                 [
                     'compteRead',
@@ -49,13 +59,6 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                 ],
                 [
                     'compteRead',
-                    'compteWrite',
-                ],
-                [
-                    'compteRead',
-                    'compteWrite',
-                ],
-                [
                     'compteWrite',
                 ],
             ],

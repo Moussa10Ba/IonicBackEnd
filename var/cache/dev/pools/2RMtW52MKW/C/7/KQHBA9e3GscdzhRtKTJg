@@ -8,6 +8,42 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
     null,
     [
         'stdClass' => [
+            'collectionOperations' => [
+                [
+                    'post' => [
+                        'method' => 'POST',
+                        'path' => '/transactions',
+                    ],
+                    'get',
+                ],
+            ],
+            'itemOperations' => [
+                [
+                    'put' => [
+                        'method' => 'PUT',
+                        'path' => '/transactions/retrait',
+                    ],
+                    'get',
+                ],
+            ],
+            'attributes' => [
+                [
+                    'security' => '(is_granted(\'ROLE_UtilisateurAgence\') or is_granted(\'ROLE_AdminAgence\'))',
+                    'security_message' => 'Acces Denied',
+                    'paginationItemsPerPage' => 100,
+                    'normalization_context' => [
+                        'groups' => [
+                            'transactionRead',
+                        ],
+                    ],
+                    'denormalization_context' => [
+                        'groups' => [
+                            'transactionWrite',
+                        ],
+                    ],
+                    'route_prefix' => '/user',
+                ],
+            ],
             'repositoryClass' => [
                 1 => 'App\\Repository\\TransactionRepository',
             ],

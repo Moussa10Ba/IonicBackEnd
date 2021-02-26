@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\CompteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -35,6 +36,7 @@ class Compte
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("compteRead")
+     * @Groups("transactionRead")
      */
     private $id;
 
@@ -42,6 +44,8 @@ class Compte
      * @ORM\Column(type="string", length=255)
      * @Groups("compteRead")
      * @Groups("compteWrite")
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
      */
     private $code;
 
@@ -66,11 +70,7 @@ class Compte
      */
     private $agence;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comptes")
-     * @Groups("compteWrite")
-     */
-    private $user;
+
 
     /**
      * @ORM\Column(type="boolean")
@@ -82,9 +82,15 @@ class Compte
      */
     private $transactions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Depot::class, mappedBy="compte")
+     */
+    private $depots;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
+        $this->depots = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -140,17 +146,6 @@ class Compte
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
     public function getArchiver(): ?bool
     {
@@ -188,6 +183,36 @@ class Compte
             // set the owning side to null (unless already changed)
             if ($transaction->getCompte() === $this) {
                 $transaction->setCompte(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Depot[]
+     */
+    public function getDepots(): Collection
+    {
+        return $this->depots;
+    }
+
+    public function addDepot(Depot $depot): self
+    {
+        if (!$this->depots->contains($depot)) {
+            $this->depots[] = $depot;
+            $depot->setCompte($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDepot(Depot $depot): self
+    {
+        if ($this->depots->removeElement($depot)) {
+            // set the owning side to null (unless already changed)
+            if ($depot->getCompte() === $this) {
+                $depot->setCompte(null);
             }
         }
 
