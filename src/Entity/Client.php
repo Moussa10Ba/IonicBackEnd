@@ -48,9 +48,10 @@ class Client
     private $numCin;
 
     /**
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="client")
+     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="clientDepot")
      */
     private $transactions;
+
 
     public function __construct()
     {
@@ -110,7 +111,7 @@ class Client
     {
         if (!$this->transactions->contains($transaction)) {
             $this->transactions[] = $transaction;
-            $transaction->setClient($this);
+            $transaction->setClientDepot($this);
         }
 
         return $this;
@@ -120,11 +121,12 @@ class Client
     {
         if ($this->transactions->removeElement($transaction)) {
             // set the owning side to null (unless already changed)
-            if ($transaction->getClient() === $this) {
-                $transaction->setClient(null);
+            if ($transaction->getClientDepot() === $this) {
+                $transaction->setClientDepot(null);
             }
         }
 
         return $this;
     }
+
 }

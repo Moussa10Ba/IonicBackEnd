@@ -44,8 +44,6 @@ class Compte
      * @ORM\Column(type="string", length=255)
      * @Groups("compteRead")
      * @Groups("compteWrite")
-     * @Groups("transactionRead")
-     * @Groups("transactionWrite")
      */
     private $code;
 
@@ -77,15 +75,16 @@ class Compte
      */
     private $archiver = false;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="compte")
-     */
-    private $transactions;
 
     /**
      * @ORM\OneToMany(targetEntity=Depot::class, mappedBy="compte")
      */
     private $depots;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="compteDepot")
+     */
+    private $transactions;
 
     public function __construct()
     {
@@ -159,35 +158,6 @@ class Compte
         return $this;
     }
 
-    /**
-     * @return Collection|Transaction[]
-     */
-    public function getTransactions(): Collection
-    {
-        return $this->transactions;
-    }
-
-    public function addTransaction(Transaction $transaction): self
-    {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions[] = $transaction;
-            $transaction->setCompte($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransaction(Transaction $transaction): self
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getCompte() === $this) {
-                $transaction->setCompte(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Depot[]
@@ -213,6 +183,36 @@ class Compte
             // set the owning side to null (unless already changed)
             if ($depot->getCompte() === $this) {
                 $depot->setCompte(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): self
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions[] = $transaction;
+            $transaction->setCompteDepot($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): self
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getCompteDepot() === $this) {
+                $transaction->setCompteDepot(null);
             }
         }
 

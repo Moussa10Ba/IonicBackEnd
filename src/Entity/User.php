@@ -106,15 +106,17 @@ class User implements UserInterface
 
 
 
-    /**
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="user")
-     */
-    private $transactions;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Depot::class, mappedBy="caissier")
      */
     private $depots;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="userDepot")
+     */
+    private $transactions;
 
     public function __construct()
     {
@@ -292,35 +294,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Transaction[]
-     */
-    public function getTransactions(): Collection
-    {
-        return $this->transactions;
-    }
-
-    public function addTransaction(Transaction $transaction): self
-    {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions[] = $transaction;
-            $transaction->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransaction(Transaction $transaction): self
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getUser() === $this) {
-                $transaction->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Depot[]
@@ -346,6 +319,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($depot->getCaissier() === $this) {
                 $depot->setCaissier(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): self
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions[] = $transaction;
+            $transaction->setUserDepot($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): self
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getUserDepot() === $this) {
+                $transaction->setUserDepot(null);
             }
         }
 

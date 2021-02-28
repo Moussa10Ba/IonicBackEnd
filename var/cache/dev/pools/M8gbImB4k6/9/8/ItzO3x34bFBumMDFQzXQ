@@ -17,6 +17,9 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
         clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
         clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
         clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
     ],
     null,
     [
@@ -31,12 +34,15 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                 'partEnt',
                 'partAgenceRetrait',
                 'partAgenceDepot',
-                'user',
-                'compte',
-                'client',
                 'dateDepot',
                 'dateRetrait',
                 'isRetired',
+                'userDepot',
+                'userRetrait',
+                'compteDepot',
+                'compteRetrait',
+                'clientDepot',
+                'clientRetrait',
             ],
             'attributesMetadata' => [
                 [
@@ -48,16 +54,46 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                     'partEnt' => $o[6],
                     'partAgenceRetrait' => $o[7],
                     'partAgenceDepot' => $o[8],
-                    'user' => $o[9],
-                    'compte' => $o[10],
-                    'client' => $o[11],
-                    'dateDepot' => $o[12],
-                    'dateRetrait' => $o[13],
-                    'isRetired' => $o[14],
+                    'dateDepot' => $o[9],
+                    'dateRetrait' => $o[10],
+                    'isRetired' => $o[11],
+                    'userDepot' => $o[12],
+                    'userRetrait' => $o[13],
+                    'compteDepot' => $o[14],
+                    'compteRetrait' => $o[15],
+                    'clientDepot' => $o[16],
+                    'clientRetrait' => $o[17],
                 ],
             ],
             'groups' => [
-                2 => [
+                1 => [
+                    'getbycodeRead',
+                ],
+                [
+                    'transactionRead',
+                    'transactionWrite',
+                    'getbycodeRead',
+                    'getbycodeWrite',
+                ],
+                [
+                    'transactionRead',
+                    'transactionWrite',
+                    'getbycodeRead',
+                ],
+                [
+                    'transactionRead',
+                    'transactionWrite',
+                ],
+                [
+                    'transactionRead',
+                ],
+                [
+                    'transactionRead',
+                ],
+                [
+                    'transactionRead',
+                ],
+                [
                     'transactionRead',
                 ],
                 [
@@ -73,15 +109,7 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                 ],
                 [
                     'transactionRead',
-                ],
-                [
-                    'transactionRead',
-                ],
-                [
-                    'transactionRead',
-                ],
-                [
-                    'transactionRead',
+                    'transactionWrite',
                 ],
                 [
                     'transactionRead',
@@ -101,6 +129,7 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                 ],
                 [
                     'transactionRead',
+                    'transactionWrite',
                 ],
             ],
         ],

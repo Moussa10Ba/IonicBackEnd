@@ -23,8 +23,8 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                 'creatAt',
                 'agence',
                 'archiver',
-                'transactions',
                 'depots',
+                'transactions',
             ],
             'attributesMetadata' => [
                 [
@@ -34,8 +34,8 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                     'creatAt' => $o[4],
                     'agence' => $o[5],
                     'archiver' => $o[6],
-                    'transactions' => $o[7],
-                    'depots' => $o[8],
+                    'depots' => $o[7],
+                    'transactions' => $o[8],
                 ],
             ],
             'groups' => [
@@ -46,8 +46,6 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                 [
                     'compteRead',
                     'compteWrite',
-                    'transactionRead',
-                    'transactionWrite',
                 ],
                 [
                     'compteRead',

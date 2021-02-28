@@ -22,14 +22,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *        "method"="POST",
  *        "path"="/transactions",
  *     },
- *     "get",
+ *     "get"={
+ *     "method"="GET",
+ *     "path"="/transactions",
+ *     },
+ *   "getBycode"={
+ *     "method"="POST",
+ *     "path"="/transactions/getbycode",
+ *     "controller":"App\Controller\TransactionController::getInfos",
+ *     "normalization_context"={"groups"={"getbycodeRead"}},
+ *     "dormalization_context"={"groups"={"getbycodeWrite"}},
+ *     },
  *     },
  *     itemOperations={
- *     "put"={
- *     "method"="PUT",
- *     "path"="/transactions/retrait",
- *     },
- *     "get"
+ *     "put",
+ *    "get"={
+ *     "method"="GET",
+ *     "path"="/transactions",
+ *     }
  *     }
  * )
  * @ORM\Entity(repositoryClass=TransactionRepository::class)
@@ -40,12 +50,16 @@ class Transaction
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("getbycodeRead")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     * @Groups("getbycodeRead")
+     * @Groups("getbycodeWrite")
      */
     private $code;
 
@@ -53,6 +67,7 @@ class Transaction
      * @ORM\Column(type="integer")
      * @Groups("transactionRead")
      * @Groups("transactionWrite")
+     * @Groups("getbycodeRead")
      */
     private $montant;
 
@@ -77,37 +92,18 @@ class Transaction
     private $partEnt;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      * @Groups("transactionRead")
      */
     private $partAgenceRetrait;
 
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      * @Groups("transactionRead")
      */
     private $partAgenceDepot;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transactions")
-     * @Groups("transactionRead")
-     */
-    private $user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Compte::class, inversedBy="transactions")
-     * @Groups("transactionRead")
-     * @Groups("transactionWrite")
-     */
-    private $compte;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="transactions",cascade = {"persist"})
-     * @Groups("transactionRead")
-     * @Groups("transactionWrite")
-     */
-    private $client;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -128,6 +124,48 @@ class Transaction
      * @Groups("transactionRead")
      */
     private $isRetired;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transactions", cascade={"persist"})
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     */
+    private $userDepot;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transactions")
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     */
+    private $userRetrait;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Compte::class, inversedBy="transactions")
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     */
+    private $compteDepot;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Compte::class, inversedBy="transactions")
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     */
+    private $compteRetrait;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="transactions",cascade={"persist"})
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     */
+    private $clientDepot;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="transactions",cascade={"persist"})
+     * @Groups("transactionRead")
+     * @Groups("transactionWrite")
+     */
+    private $clientRetrait;
 
     public function getId(): ?int
     {
@@ -221,41 +259,7 @@ class Transaction
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
 
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getCompte(): ?Compte
-    {
-        return $this->compte;
-    }
-
-    public function setCompte(?Compte $compte): self
-    {
-        $this->compte = $compte;
-
-        return $this;
-    }
-
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
 
     public function getDateDepot(): ?\DateTimeInterface
     {
@@ -289,6 +293,78 @@ class Transaction
     public function setIsRetired(bool $isRetired): self
     {
         $this->isRetired = $isRetired;
+
+        return $this;
+    }
+
+    public function getUserDepot(): ?User
+    {
+        return $this->userDepot;
+    }
+
+    public function setUserDepot(?User $userDepot): self
+    {
+        $this->userDepot = $userDepot;
+
+        return $this;
+    }
+
+    public function getUserRetrait(): ?User
+    {
+        return $this->userRetrait;
+    }
+
+    public function setUserRetrait(?User $userRetrait): self
+    {
+        $this->userRetrait = $userRetrait;
+
+        return $this;
+    }
+
+    public function getCompteDepot(): ?Compte
+    {
+        return $this->compteDepot;
+    }
+
+    public function setCompteDepot(?Compte $compteDepot): self
+    {
+        $this->compteDepot = $compteDepot;
+
+        return $this;
+    }
+
+    public function getCompteRetrait(): ?Compte
+    {
+        return $this->compteRetrait;
+    }
+
+    public function setCompteRetrait(?Compte $compteRetrait): self
+    {
+        $this->compteRetrait = $compteRetrait;
+
+        return $this;
+    }
+
+    public function getClientDepot(): ?Client
+    {
+        return $this->clientDepot;
+    }
+
+    public function setClientDepot(?Client $clientDepot): self
+    {
+        $this->clientDepot = $clientDepot;
+
+        return $this;
+    }
+
+    public function getClientRetrait(): ?Client
+    {
+        return $this->clientRetrait;
+    }
+
+    public function setClientRetrait(?Client $clientRetrait): self
+    {
+        $this->clientRetrait = $clientRetrait;
 
         return $this;
     }

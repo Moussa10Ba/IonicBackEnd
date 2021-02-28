@@ -11,6 +11,9 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
             'type' => [
                 'integer',
             ],
+            'nullable' => [
+                true,
+            ],
         ],
         'Symfony\\Component\\Serializer\\Annotation\\Groups' => [
             'groups' => [

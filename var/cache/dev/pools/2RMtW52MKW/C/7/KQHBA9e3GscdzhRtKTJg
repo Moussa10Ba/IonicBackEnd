@@ -14,16 +14,34 @@ return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\
                         'method' => 'POST',
                         'path' => '/transactions',
                     ],
-                    'get',
+                    'get' => [
+                        'method' => 'GET',
+                        'path' => '/transactions',
+                    ],
+                    'getBycode' => [
+                        'method' => 'POST',
+                        'path' => '/transactions/getbycode',
+                        'controller' => 'App\\Controller\\TransactionController::getInfos',
+                        'normalization_context' => [
+                            'groups' => [
+                                'getbycodeRead',
+                            ],
+                        ],
+                        'dormalization_context' => [
+                            'groups' => [
+                                'getbycodeWrite',
+                            ],
+                        ],
+                    ],
                 ],
             ],
             'itemOperations' => [
                 [
-                    'put' => [
-                        'method' => 'PUT',
-                        'path' => '/transactions/retrait',
+                    'put',
+                    'get' => [
+                        'method' => 'GET',
+                        'path' => '/transactions',
                     ],
-                    'get',
                 ],
             ],
             'attributes' => [
